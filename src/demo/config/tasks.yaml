@@ -15,3 +15,32 @@ reporting_task:
     A fully fledged report with the main topics, each with a full section of information.
     Formatted as markdown without '```'
   agent: reporting_analyst
+
+analyze_resume:
+  description: >
+    Analyze the candidate's resume in detail. Extract and evaluate:
+    1. Technical skills and proficiency levels
+    2. Years of relevant experience
+    3. Educational background
+    4. Project achievements
+    5. Role-specific qualifications
+    Create a structured analysis highlighting strengths and potential concerns.
+  expected_output: >
+    A detailed analysis report of the candidate's qualifications in CSV format
+    with clear sections for skills, experience, education, and achievements.
+  agent: resume_analyzer
+
+make_screening_decision:
+  description: >
+    Based on the resume analysis, make a screening decision (YES/NO/NOT SURE)
+    and provide detailed justification. Consider:
+    1. Match with required skills
+    2. Experience relevance
+    3. Potential red flags
+    4. Overall fit for the role
+    Provide specific reasons for the decision.
+  expected_output: >
+    A clear screening decision (YES/NO/NOT SURE) with detailed justification
+    and specific recommendations for next steps.
+  agent: screening_decision_maker
+  context: [analyze_resume]

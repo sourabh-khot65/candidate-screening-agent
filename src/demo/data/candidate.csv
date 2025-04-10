@@ -1,0 +1,13 @@
+name,John Doe
+email,john.doe@email.com
+role_applied,Senior Software Engineer
+years_experience,8
+education,Masters in Computer Science
+current_company,Tech Solutions Inc.
+skills,"Python (Expert), JavaScript (Advanced), AWS (Advanced), Docker (Intermediate), Kubernetes (Intermediate), React (Advanced), Node.js (Advanced), MongoDB (Advanced), SQL (Expert), System Design (Advanced)"
+achievements,"Led development of scalable microservices architecture serving 1M+ users, Reduced system latency by 40% through optimization, Implemented CI/CD pipeline reducing deployment time by 60%, Mentored 5 junior developers"
+certifications,"AWS Solutions Architect, MongoDB Developer, Kubernetes Administrator"
+languages,"English (Native), Spanish (Professional)"
+github_profile,github.com/johndoe
+linkedin_profile,linkedin.com/in/johndoe
+portfolio_url,johndoe.dev 
