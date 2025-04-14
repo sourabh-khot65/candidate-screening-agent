@@ -2,15 +2,15 @@ from pathlib import Path
 from typing import Dict
 
 from crewai import Agent, Crew, Process, Task
+from crewai.project import CrewBase, agent, crew, task
 
 # If you want to run a snippet of code before or after the crew starts,
 # you can use the @before_kickoff and @after_kickoff decorators
 # https://docs.crewai.com/concepts/crews#example-crew-class-with-decorators
 
+@CrewBase
 class Demo:
-    """
-    A demo crew for screening candidates based on their resumes.
-    """
+    """Crew for evaluating Android developer candidates"""
 
     def __init__(self):
         """Initialize the demo crew."""
@@ -24,48 +24,44 @@ class Demo:
         with open(path, "r") as f:
             return yaml.safe_load(f)
 
+    @agent
+    def resume_screener(self) -> Agent:
+        return Agent(
+            config=self.agents_config['resume_screener'],
+            verbose=True
+        )
+
+    @agent
+    def evaluator(self) -> Agent:
+        return Agent(
+            config=self.agents_config['evaluator'],
+            verbose=True
+        )
+
+    @task
+    def screen_resume(self) -> Task:
+        return Task(
+            config=self.tasks_config['screen_resume']
+        )
+
+    @task
+    def evaluate_candidate(self) -> Task:
+        return Task(
+            config=self.tasks_config['evaluate_candidate']
+        )
+
+    @crew
     def crew(self) -> Crew:
-        """
-        Create and return a crew for candidate screening.
-        
-        Returns:
-            Crew: A configured crew instance
-        """
-        # Create agents
-        resume_analyzer = Agent(
-            role=self.agents_config["resume_analyzer"]["role"],
-            goal=self.agents_config["resume_analyzer"]["goal"],
-            backstory=self.agents_config["resume_analyzer"]["backstory"],
-            verbose=True
-        )
-        
-        screening_decision_maker = Agent(
-            role=self.agents_config["screening_decision_maker"]["role"],
-            goal=self.agents_config["screening_decision_maker"]["goal"],
-            backstory=self.agents_config["screening_decision_maker"]["backstory"],
-            verbose=True
-        )
-
-        # Create tasks
-        analyze_config = self.tasks_config["analyze_resume"].copy()
-        analyze_task = Task(
-            description=analyze_config["description"],
-            expected_output=analyze_config["expected_output"],
-            agent=resume_analyzer
-        )
-        
-        decision_config = self.tasks_config["make_screening_decision"].copy()
-        decision_task = Task(
-            description=decision_config["description"],
-            expected_output=decision_config["expected_output"],
-            agent=screening_decision_maker,
-            context=[analyze_task]
-        )
-
-        # Create and return the crew
+        """Create the candidate evaluation crew"""
         return Crew(
-            agents=[resume_analyzer, screening_decision_maker],
-            tasks=[analyze_task, decision_task],
-            process=Process.sequential,
-            verbose=True
+            agents=[
+                self.resume_screener(),
+                self.evaluator()
+            ],
+            tasks=[
+                self.screen_resume(),
+                self.evaluate_candidate()
+            ],
+            verbose=True,
+            process=Process.sequential
         )

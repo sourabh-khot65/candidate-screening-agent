@@ -1,54 +1,50 @@
-# Demo Crew
+# Candidate Data Processing
 
-Welcome to the Demo Crew project, powered by [crewAI](https://crewai.com). This template is designed to help you set up a multi-agent AI system with ease, leveraging the powerful and flexible framework provided by crewAI. Our goal is to enable your agents to collaborate effectively on complex tasks, maximizing their collective intelligence and capabilities.
+This project provides utilities for processing candidate data from a CSV file. It includes functionality to filter candidates by skills and experience level.
 
-## Installation
+## Features
 
-Ensure you have Python >=3.10 <3.13 installed on your system. This project uses [UV](https://docs.astral.sh/uv/) for dependency management and package handling, offering a seamless setup and execution experience.
+- Load candidate data from CSV
+- Filter candidates by specific skills (case-insensitive)
+- Get candidates with minimum years of experience
+- Easy to extend with additional filtering capabilities
 
-First, if you haven't already, install uv:
+## Setup
 
+1. Install dependencies:
 ```bash
-pip install uv
+pip install -r requirements.txt
 ```
 
-Next, navigate to your project directory and install the dependencies:
+2. Place your candidate data in `data/candidates.csv` with the following columns:
+   - id
+   - name
+   - email
+   - resume_url
 
-(Optional) Lock the dependencies and install them by using the CLI command:
-```bash
-crewai install
-```
-### Customizing
+## Usage
 
-**Add your `OPENAI_API_KEY` into the `.env` file**
+```python
+from src.process_candidates import load_candidates, filter_by_skill, get_experienced_candidates
 
-- Modify `src/demo/config/agents.yaml` to define your agents
-- Modify `src/demo/config/tasks.yaml` to define your tasks
-- Modify `src/demo/crew.py` to add your own logic, tools and specific args
-- Modify `src/demo/main.py` to add custom inputs for your agents and tasks
+# Load all candidates
+df = load_candidates()
 
-## Running the Project
+# Filter Python developers
+python_devs = filter_by_skill(df, "Python")
 
-To kickstart your crew of AI agents and begin task execution, run this from the root folder of your project:
-
-```bash
-$ crewai run
+# Get candidates with 5+ years experience
+experienced = get_experienced_candidates(df, 5)
 ```
 
-This command initializes the demo Crew, assembling the agents and assigning them tasks as defined in your configuration.
+## Project Structure
 
-This example, unmodified, will run the create a `report.md` file with the output of a research on LLMs in the root folder.
-
-## Understanding Your Crew
-
-The demo Crew is composed of multiple AI agents, each with unique roles, goals, and tools. These agents collaborate on a series of tasks, defined in `config/tasks.yaml`, leveraging their collective skills to achieve complex objectives. The `config/agents.yaml` file outlines the capabilities and configurations of each agent in your crew.
-
-## Support
-
-For support, questions, or feedback regarding the Demo Crew or crewAI.
-- Visit our [documentation](https://docs.crewai.com)
-- Reach out to us through our [GitHub repository](https://github.com/joaomdmoura/crewai)
-- [Join our Discord](https://discord.com/invite/X4JWnZnxPb)
-- [Chat with our docs](https://chatg.pt/DWjSBZn)
-
-Let's create wonders together with the power and simplicity of crewAI.
+```
+.
+├── data/
+│   └── candidates.csv
+├── src/
+│   └── process_candidates.py
+├── requirements.txt
+└── README.md
+```
