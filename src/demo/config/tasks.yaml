@@ -1,0 +1,54 @@
+screen_resume:
+  description: >
+    Review the candidate's resume text and extract key information:
+    
+    Resume Text:
+    {candidate[resume_text]}
+    
+    Job Description:
+    {job_description}
+    
+    Extract and analyze:
+    1. Years of Android development experience
+    2. Technical skills (Kotlin, Java, Android frameworks)
+    3. Project experience and achievements
+    4. Education and certifications
+    5. Leadership and mentoring experience
+    
+    Focus on Android development skills and experience.
+  expected_output: >
+    A structured analysis of the candidate's qualifications including:
+    1. Years of Android experience
+    2. Technical skills assessment
+    3. Project highlights
+    4. Education summary
+    5. Leadership experience
+  agent: resume_screener
+
+evaluate_candidate:
+  description: >
+    Based on the resume screening and job requirements, evaluate the candidate for the Senior Android Developer position.
+    
+    Job Requirements:
+    {job_description}
+    
+    Consider:
+    1. Technical Skills Match (Kotlin, Java, Android)
+    2. Years of Experience (3-6 years required)
+    3. Architecture Knowledge (MVC, MVVM)
+    4. API Experience
+    5. Testing Knowledge
+    6. Leadership/Mentoring
+    7. Communication Skills
+    
+    Provide a detailed assessment with clear reasoning.
+  expected_output: >
+    A comprehensive evaluation including:
+    1. Overall Assessment: (Recommend / Do Not Recommend / Consider)
+    2. Technical Skills Match: (percentage)
+    3. Experience Match: (percentage)
+    4. Key Strengths: (bullet points)
+    5. Areas of Concern: (if any)
+    6. Final Recommendation: (with specific reasoning)
+  agent: evaluator
+  context: [screen_resume]
